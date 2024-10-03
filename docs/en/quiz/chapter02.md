@@ -184,7 +184,7 @@ def foo := let a := Nat; fun x : a => x + 2
 
 ## Question 22
 
-Use the `#print` command to check the definitions of the following functions:
+Use the `#print` command to check each definition of the following functions:
 
 ```lean
 namespace Question22
@@ -202,8 +202,8 @@ end Question22
 
 ## Question 23
 
-There's an error in the following code. Fix the expression after the `#eval`
-command by providing the missing arguments to the function `compose`.
+There's an error in the following code. Fix the expression after the last
+`#eval` command by providing the missing arguments to the function `compose`.
 
 ```lean
 namespace Question23
@@ -265,17 +265,17 @@ defined in [Question 9](#question-9).
 
 ## Question 28
 
-Is the type `(α : Type) → (β : α → Type) → (a : α) → β a` a dependent function
-type?
+Given `α : Type` and `β : α → Type`, is the type `(a : α) → β a` a dependent
+function type?
 
 ## Question 29
 
-Is the type `(α : Type) → (β : α → Type) → (a : α) × β a` a dependent product
-type?
+Given `α : Type` and `β : α → Type`, is the type `(a : α) × β a` a dependent
+product type?
 
 ## Question 30
 
-Is the type `(α : Type) → (β : α → Type) → Σ (a : α), β a` a Sigma type?
+Given `α : Type` and `β : α → Type`, is the type `Σ (a : α), β a` a sigma type?
 
 ## Question 31
 

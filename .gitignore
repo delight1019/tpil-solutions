@@ -1,1 +1,12 @@
 /.lake
+
+*~
+*.html
+docs/docs-level1.tmx
+docs/docs-level2.tmx
+docs/docs-omegat.tmx
+docs/**/*.bak
+docs/omegat/last_entry.properties
+docs/omegat/files_order.txt
+docs/omegat/project_stats.txt
+docs/tm/*.tmx
