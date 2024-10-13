@@ -131,7 +131,7 @@ end Question20
 namespace Question21
   /-
     foo에서 a는 Nat의 abbreviation으로 선언되었기 때문에 fun x : a 구절에서 a는 Nat으로 취급되지만,
-    bar에서 a는 변수이므로 fun x : a 선언에서 x의 타입이 될 수 없어 문제가 발생한다.
+    bar에서 a는 변수이므로 fun x : a 선언에서 x의 유형이 Nat이 아닐 수 있다. 이 때문에 문제가 발생한다.
   -/
 end Question21
 
