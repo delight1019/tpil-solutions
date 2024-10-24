@@ -1,4 +1,3 @@
-open Classical
 variable (p q r : Prop)
 
 -- commutativity of ∧ and ∨
@@ -127,8 +126,7 @@ example : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
             (fun hq : q => show False from hnq hq)
     )
 
-example : ¬p ∨ ¬q ↔ ¬(p ∧ q) :=
-  Iff.intro
+example : ¬p ∨ ¬q → ¬(p ∧ q) :=
     (fun h : ¬p ∨ ¬q =>
       Or.elim h
         (fun hnp : ¬p => show ¬(p ∧ q) from
@@ -141,13 +139,6 @@ example : ¬p ∨ ¬q ↔ ¬(p ∧ q) :=
             have hq : q := hpnq.right
             show False from hnq hq
         )
-    )
-    (fun h : ¬(p ∧ q) => show ¬p ∨ ¬q from
-      Or.elim (em p)
-        (fun hp : p => Or.inr (show ¬q from
-          fun hq : q => h ⟨hp, hq⟩
-        ))
-        (fun hnp : ¬p => Or.inl hnp)
     )
 
 example : ¬(p ∧ ¬p) :=
@@ -193,6 +184,8 @@ example : (p → q) → (¬q → ¬p) :=
   fun hnq : ¬q =>
   show ¬p from
     fun hp : p => show False from hnq (hptq hp)
+
+open Classical
 
 example : (p → q ∨ r) → ((p → q) ∨ (p → r)) :=
   fun h : p → q ∨ r => show (p → q) ∨ (p → r) from
