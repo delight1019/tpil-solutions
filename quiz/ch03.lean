@@ -1,4 +1,3 @@
-open Classical
 variable (p q r : Prop)
 
 -- commutativity of ∧ and ∨
@@ -12,7 +11,7 @@ example : p ∨ q ↔ q ∨ p :=
     (fun h : p ∨ q => show q ∨ p from
       Or.elim h (fun hp : p => Or.inr hp) (fun hq : q => Or.inl hq))
     (fun h : q ∨ p => show p ∨ q from
-        Or.elim h (fun hq : q => Or.inr hq) (fun hp : p => Or.inl hp))
+      Or.elim h (fun hq : q => Or.inr hq) (fun hp : p => Or.inl hp))
 
 --  associativity of ∧ and ∨
 example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
@@ -20,11 +19,11 @@ example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
     (fun h : (p ∧ q) ∧ r =>
       have pnq : p ∧ q := h.left
       show p ∧ (q ∧ r) from
-        And.intro (pnq.left) (⟨pnq.right, h.right⟩))
+        And.intro pnq.left ⟨pnq.right, h.right⟩)
     (fun h : p ∧ (q ∧ r) =>
       have qnr : q ∧ r := h.right
       show (p ∧ q) ∧ r from
-        And.intro (⟨h.left, qnr.left⟩) (qnr.right))
+        And.intro ⟨h.left, qnr.left⟩ qnr.right)
 
 example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
   Iff.intro
@@ -43,9 +42,9 @@ example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
         Or.elim h
           (fun hp : p => Or.inl (Or.inl hp))
           (fun hqor : q ∨ r => show (p ∨ q) ∨ r from
-            (Or.elim hqor
+            Or.elim hqor
               (fun hq : q => Or.inl (Or.inr hq))
-              (fun hr : r => Or.inr hr))
+              (fun hr : r => Or.inr hr)
             )
       )
 
@@ -127,8 +126,7 @@ example : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
             (fun hq : q => show False from hnq hq)
     )
 
-example : ¬p ∨ ¬q ↔ ¬(p ∧ q) :=
-  Iff.intro
+example : ¬p ∨ ¬q → ¬(p ∧ q) :=
     (fun h : ¬p ∨ ¬q =>
       Or.elim h
         (fun hnp : ¬p => show ¬(p ∧ q) from
@@ -141,13 +139,6 @@ example : ¬p ∨ ¬q ↔ ¬(p ∧ q) :=
             have hq : q := hpnq.right
             show False from hnq hq
         )
-    )
-    (fun h : ¬(p ∧ q) => show ¬p ∨ ¬q from
-      Or.elim (em p)
-        (fun hp : p => Or.inr (show ¬q from
-          fun hq : q => h ⟨hp, hq⟩
-        ))
-        (fun hnp : ¬p => Or.inl hnp)
     )
 
 example : ¬(p ∧ ¬p) :=
@@ -194,6 +185,8 @@ example : (p → q) → (¬q → ¬p) :=
   show ¬p from
     fun hp : p => show False from hnq (hptq hp)
 
+open Classical
+
 example : (p → q ∨ r) → ((p → q) ∨ (p → r)) :=
   fun h : p → q ∨ r => show (p → q) ∨ (p → r) from
     Or.elim (em p)
@@ -202,9 +195,9 @@ example : (p → q ∨ r) → ((p → q) ∨ (p → r)) :=
         show (p → q) ∨ (p → r) from
           Or.elim hqor
             (fun hq : q => Or.inl (show p → q from
-              fun hp : p => show q from hq))
+              fun _ : p => show q from hq))
             (fun hr : r => Or.inr (show p → r from
-              fun hp : p => show r from hr))
+              fun _ : p => show r from hr))
       )
       (fun hnp : ¬p => Or.inl (show p → q from
         fun hp : p => show q from False.elim (hnp hp)))
@@ -219,7 +212,7 @@ example : ¬(p ∧ q) → ¬p ∨ ¬q :=
 example : ¬(p → q) → p ∧ ¬q :=
   fun h : ¬(p → q) => show p ∧ ¬q from
     Or.elim (em q)
-      (fun hq : q => absurd (fun hp : p => hq) h)
+      (fun hq : q => absurd (fun _ : p => hq) h)
       (fun hnq : ¬q =>
         Or.elim (em p)
           (fun hp : p => show p ∧ ¬q from ⟨hp, hnq⟩)
