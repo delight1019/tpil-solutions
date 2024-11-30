@@ -64,11 +64,26 @@ One can't clearly determine what the verb phrase 'clearly determine' really
 means, so Korean high school mathematics doesn't make it easier for students to
 understand the notion of a proposition.
 
+### Appendix: Korean High School Mathematics Teachers' Thoughts
+
+Recently, a high school student from Korea [asked][ask] two math teachers which
+of the following is a proposition: (a) a subjective value judgment and (b) a
+mathematical statement whose truth value we don't know yet. Both responded that
+(a) isn't a proposition.
+
+However, they were divided on whether (b) is a proposition. One of them said
+that (b) is also a proposition since we *can* determine its truth or falsehood.
+The other argued that *linguistically* speaking ("국어적으로 해석한다면"), we can
+determine the truth or falsehood of (b), but *mathematically* speaking, it can't
+be a proposition.
+
 ## References
 
 * McGrath, Matthew and Devin Frank, "Propositions", *The Stanford Encyclopedia
   of Philosophy* (Fall 2024 Edition), Edward N. Zalta & Uri Nodelman (eds.), URL
   = <https://plato.stanford.edu/archives/fall2024/entries/propositions/>.
-* 전인태, 김동재, 최은아 등. 게재일 불명. “고등학교 공통수학2.” 천재교과서. 2024년 9월 26일에
-  마지막으로 접속함.
-  <https://view.chunjae.co.kr/streamdocs/view/sd;streamdocsId=BbTgEmTJFvPiML1Vt8UZRczOcmO6rlK3ins3Ux5VOHA>.
+* 전인태, 김동재, 최은아 등. 게재일 불명. “고등학교 공통수학2.” 천재교과서.
+  2024년 10월 21일에 마지막으로 접속함.
+  <https://text.tsherpa.co.kr/modal/preview_file.html?filePath=/00_%EA%B5%90%EA%B3%BC%EC%84%9C%ED%99%8D%EB%B3%B4%EA%B4%80_%EA%B3%A0%EB%93%B1/%EA%B5%90%EA%B3%BC%EC%84%9CPDF/03_%EC%88%98%ED%95%99/%EC%B2%9C%EC%9E%AC_%EA%B3%A0%EB%93%B1_%EA%B3%B5%ED%86%B5%EC%88%98%ED%95%992(%EC%A0%84%EC%9D%B8%ED%83%9C)_%EA%B5%90%EA%B3%BC%EC%84%9C.pdf>.
+
+[ask]: https://forum.owlofsogang.com/t/topic/5357/13

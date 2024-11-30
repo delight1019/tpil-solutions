@@ -85,7 +85,8 @@
 
 ### Equivalence
 
-* Names: equivalence, logical biconditional, material biconditional
+* Names: equivalence, logical biconditional, material biconditional, material
+  equivalence
 * Name in Lean: `Iff` (abbreviation of "if and only if")
 * Symbol: `↔` (read as "if and only if")
 * Editor shortcut: `\iff`, `\lr`

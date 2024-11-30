@@ -46,11 +46,20 @@ def goldbach_conjecture : Prop :=
 
 "명확하게 판별하다"라는 동사구가 무슨 뜻인지는 명확하게 판별할 수 없습니다. 그래서 한국 고등학교 수학에서의 명제 개념은 학생들이 이해하기 더 쉽지 않습니다.
 
+### 부록: 한국 고등학교 수학 교사들의 생각
+
+최근에 한국의 어느 한 고등학생이 두 수학 교사분에게 (1) 주관적 가치 판단, (2) 진릿값을 아직 모르는 수학 진술 가운데 무엇이 명제인지 [질문했습니다][ask]. 두 분 모두 (1)은 명제가 아니라고 답했습니다.
+
+그러나 (2)가 명제인지를 둘러싸고 두 분의 의견이 갈렸습니다. 한 분은 우리가 (2)의 진릿값을 모르더라도 그것의 참과 거짓을 판별'할 수' 있기 때문에 이 또한 명제라고 말씀하셨습니다.
+다른 분은 (2)를 '국어적으로' 해석한다면 그것의 참과 거짓을 판별할 수 있지만, '수학적으로' 해석한다면 진릿값을 모르는 진술은 명제가 될 수 없다고 주장하셨습니다.
+
 ## 참고 문헌
 
 * McGrath, Matthew and Devin Frank, "Propositions", *The Stanford Encyclopedia
 of Philosophy* (Fall 2024 Edition), Edward N. Zalta & Uri Nodelman (eds.), URL
 = <https://plato.stanford.edu/archives/fall2024/entries/propositions/>.
-* 전인태, 김동재, 최은아 등. 게재일 불명. “고등학교 공통수학2.” 천재교과서. 2024년 9월 26일에
-마지막으로 접속함.
-<https://view.chunjae.co.kr/streamdocs/view/sd;streamdocsId=BbTgEmTJFvPiML1Vt8UZRczOcmO6rlK3ins3Ux5VOHA>.
+* 전인태, 김동재, 최은아 등. 게재일 불명. “고등학교 공통수학2.” 천재교과서.
+2024년 10월 21일에 마지막으로 접속함.
+<https://text.tsherpa.co.kr/modal/preview_file.html?filePath=/00_%EA%B5%90%EA%B3%BC%EC%84%9C%ED%99%8D%EB%B3%B4%EA%B4%80_%EA%B3%A0%EB%93%B1/%EA%B5%90%EA%B3%BC%EC%84%9CPDF/03_%EC%88%98%ED%95%99/%EC%B2%9C%EC%9E%AC_%EA%B3%A0%EB%93%B1_%EA%B3%B5%ED%86%B5%EC%88%98%ED%95%992(%EC%A0%84%EC%9D%B8%ED%83%9C)_%EA%B5%90%EA%B3%BC%EC%84%9C.pdf>.
+
+[ask]: https://forum.owlofsogang.com/t/topic/5357/13

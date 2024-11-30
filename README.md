@@ -1,5 +1,7 @@
 # tpil-solutions
 
+English | [한국어[Korean]](./README.ko.md)
+
 This is the repository for my solutions to the exercises in ["Theorem Proving in
 Lean 4"][tpil] by [Jeremy Avigad][ja], [Leonardo de Moura][ldm], [Soonho
 Kong][sk] and [Sebastian Ullrich][su], with contributions from the [Lean
@@ -8,6 +10,10 @@ Community][lean-comm]. You are free to reuse the content under the terms of
 
 I've also included a quiz for each chapter of the text in this repository, along
 with my solutions to the questions in each quiz.
+
+I use [OmegaT][omt] to translate English documentation into Korean. The OmegaT
+project is in the [`docs`](./docs) directory. You need to install the [Okapi
+filters plugin for OmegaT][okapi] to make OmegaT parse Markdown files.
 
 ## Directories and files
 
@@ -23,7 +29,7 @@ with my solutions to the questions in each quiz.
 
 * [`TPIL`](./TPIL): My solutions to the exercises and questions.
   * `ChapterXX`: Chapter XX of the text.
-    * `Question*`: Solutions to the question(s) of my quiz. Yet to be public.
+    * `Question*`: Solutions to the question(s) of my quiz.
 
 ## Contributing
 
@@ -38,4 +44,6 @@ project.
 [sk]: https://soonhokong.github.io/
 [su]: https://sebasti.a.nullri.ch/
 [lean-comm]: https://leanprover-community.github.io/
+[omt]: https://omegat.org/
+[okapi]: https://okapiframework.org/wiki/index.php/Okapi_Filters_Plugin_for_OmegaT
 [lean-books]: https://sr.ht/~chabulhwi/lean-books/

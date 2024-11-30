@@ -238,6 +238,9 @@ Give the value and type of each expression listed below.
 Use the `print` command to check the type of the function `List.cons`, then
 answer by true or false each of the following statements about the function.
 
+For information about parametric polymorphism, see
+<https://ncatlab.org/nlab/show/polymorphism#parametric_polymorphism>.
+
 \(a\) It is universe-polymorphic. \
 \(b\) It is parametrically polymorphic. \
 \(c\) It is a dependent function. \
@@ -260,7 +263,7 @@ defined in [Question 9](#question-9).
 \(a\) At least one of them is parametrically polymorphic. \
 \(b\) At least one of them is a dependent function. \
 \(c\) At least one of them has a dependent function type. \
-\(d\) At least one of them is a dependent product. \
+\(d\) At least one of them is a dependent pair. \
 \(e\) At least one of them has a dependent product type.
 
 ## Question 28
