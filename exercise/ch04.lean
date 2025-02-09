@@ -1,5 +1,124 @@
-/- Existential Quantifier -/
-namespace existential_quantifier
+namespace Exercise_1
+
+variable (α : Type) (p q : α → Prop)
+
+example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) :=
+  Iff.intro
+    (fun h : ∀ x, p x ∧ q x =>
+      ⟨fun z => (h z).left, fun z => (h z).right⟩
+    )
+    (fun h : (∀ x, p x) ∧ (∀ x, q x) =>
+      fun z => ⟨(h.left z), (h.right z)⟩
+    )
+
+example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
+  fun h : ∀ x, p x → q x =>
+  fun h2 : ∀ x, p x =>
+  fun z => show q z from
+  ((h z) (h2 z))
+
+example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
+  fun h : (∀ x, p x) ∨ (∀ x, q x) =>
+    Or.elim h
+      (fun hp : ∀ x, p x =>
+        fun z => show p z ∨ q z from Or.inl (hp z)
+      )
+      (fun hq : ∀ x, q x =>
+        fun z => show p z ∨ q z from Or.inr (hq z)
+      )
+
+/-
+  마지막 example에서 역이 성립하지 않는 이유:
+  p(x1), ¬q(x1), ¬p(x2), q(x2)인 x1, x2가 있고, 다른 x에 대해선 p(x), q(x)가 성립한다고 하자.
+  이 때 가정인 ∀ x, p x ∨ q x는 참이지만 (∀ x, p x), (∀ x, q x)는 모두 거짓이다.
+-/
+
+end Exercise_1
+
+namespace Exercise_2
+
+open Classical
+
+variable (α : Type) (p q : α → Prop)
+variable (r : Prop)
+
+example : α → ((∀ x : α, r) ↔ r) :=
+  fun ha : α => show (∀ x : α, r) ↔ r from
+    Iff.intro
+      (fun h : ∀ x : α, r => h ha)
+      (fun h : r => show ∀ x : α , r from
+        fun _ => show r from h
+      )
+
+example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
+  Iff.intro
+    (fun h : ∀ x, p x ∨ r => show (∀ x, p x) ∨ r from
+      byCases
+        (fun hr : r => Or.inr hr)
+        (fun hnr : ¬ r => Or.inl (fun z => show p z from
+          (h z).resolve_right hnr
+        ))
+    )
+    (fun h : (∀ x, p x) ∨ r =>
+      fun z => show p z ∨ r from
+        Or.elim h
+          (fun hp : ∀ x, p x => Or.inl (hp z))
+          (fun hr : r => Or.inr hr)
+    )
+
+example : (∀ x, r → p x) ↔ (r → ∀ x, p x) :=
+  Iff.intro
+    (fun h : ∀ x, r → p x =>
+      fun hr : r =>
+      fun z => show p z from
+      (h z) hr
+    )
+    (fun h : r → ∀ x, p x =>
+      fun z =>
+      fun hr : r => show p z from
+      (h hr) z
+    )
+
+
+end Exercise_2
+
+namespace Exercise_3
+
+variable (men : Type) (barber : men)
+variable (shaves : men → men → Prop)
+
+example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False :=
+  have hbarber : shaves barber barber ↔ ¬ shaves barber barber := h barber
+  let sbb := shaves barber barber
+  have hp : sbb → ¬ sbb := hbarber.mp
+  have hnp : ¬ sbb → sbb := hbarber.mpr
+  show False from
+    absurd (fun hsbb : sbb => absurd hsbb (hp hsbb))
+           (fun hnsbb : ¬ sbb => absurd (hnp hnsbb) hnsbb)
+
+end Exercise_3
+
+namespace Exercise_4
+
+def even (n : Nat) : Prop := ∃ k, 2 * k = n
+
+def prime (n : Nat) : Prop := ∀ x, x != 1 ∧ x != n → (¬ ∃ x, n % x = 0)
+
+def infinitely_many_primes : Prop := ∀ n : Nat, ∃ x, (x > n) ∧ (prime x)
+
+def Fermat_prime (n : Nat) : Prop := prime (2^2^n + 1)
+
+def infinitely_many_Fermat_primes : Prop := ∀ n : Nat, ∃ x, (x > n) ∧ (Fermat_prime x)
+
+def goldbach_conjecture : Prop := ∀ n, (n > 2) ∧ (even n) → ∃ x y, (prime x) ∧ (prime y) ∧ (x + y = n)
+
+def Goldbach's_weak_conjecture : Prop := ∀ n, (n > 5) → ∃ x y z, (prime x) ∧ (prime y) ∧ (prime z) ∧ (x + y + z = n)
+
+def Fermat's_last_theorem : Prop := ∀ n, (n ≥ 3) → ¬ ∃ a b c : Nat, a^n + b^n = c^n
+
+end Exercise_4
+
+namespace Exercise_5
 
 open Classical
 
@@ -103,17 +222,82 @@ example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) :=
 
 example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) :=
   Iff.intro
-    (fun h : ¬ ∀ x, p x => show ∃ x, ¬ p x from
+    (fun h : ¬ ∀ x, p x =>
       byContradiction
-        (fun nCon : ¬ ∃ x, ¬ p x =>
-          have h2 : ∀ x, p x :=
-            fun x =>
-            fun hnp : ¬ p x =>
-            have h3 : ∃ x, ¬ p x := ⟨x, hnp⟩
-            show False from nCon h3
-          show False from h h2
+      (fun nCon : ¬ (∃ x, ¬ p x) =>
+        have nh : ∀ x, p x :=
+          fun z => show p z from
+            byContradiction
+            (fun hnp : ¬ p z =>
+             have h1 : ∃ x, ¬ p x := ⟨z, hnp⟩
+             show False from nCon h1
+            )
+        show False from h nh
+      )
+    )
+    (fun h : ∃ x, ¬ p x =>
+      fun nCon : ∀ x, p x =>
+        Exists.elim h
+          (fun w =>
+           fun hnp : ¬ p w => absurd (nCon w) hnp
+          )
+    )
+
+
+
+example : (∀ x, p x → r) ↔ (∃ x, p x) → r :=
+  Iff.intro
+    (fun h : ∀ x, p x → r =>
+      fun ⟨w, (hp : p w)⟩ => show r from
+      (h w) hp
+    )
+    (fun h : (∃ x, p x) → r =>
+      fun z => show p z → r from
+      fun hpz : p z => show r from
+      h ⟨z, hpz⟩
+    )
+
+example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r :=
+  Iff.intro
+    (fun ⟨w, (hpr : p w → r)⟩ =>
+     fun hp : ∀ x, p x => show r from
+     hpr (hp w)
+    )
+    (fun h : (∀ x, p x) → r => show ∃ x, p x → r from
+      byCases
+        (fun hap : ∀ x, p x => ⟨a, λ _ => h hap⟩)
+        (fun hnap : ¬ ∀ x, p x =>
+          byContradiction
+            (fun hnex : ¬ exists x, p x → r =>
+              have hap : ∀ x, p x :=
+                fun x =>
+                byContradiction
+                  (fun hnp : ¬ p x =>
+                    have hex : ∃ x, p x → r := ⟨x, (fun hp => absurd hp hnp)⟩
+                    show False from hnex hex
+                  )
+             show False from hnap hap
+            )
         )
     )
-    (sorry)
 
-end existential_quantifier
+example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) :=
+  Iff.intro
+    (fun ⟨w, (hrp : r → p w)⟩ =>
+     fun hr : r =>
+      ⟨w, hrp hr⟩
+    )
+    (fun h : r → ∃ x, p x => show ∃ x, r → p x from
+      byCases
+        (fun hr : r =>
+          Exists.elim (h hr)
+          (fun w => fun hp : p w =>
+            ⟨w, fun _ => hp⟩
+          )
+        )
+        (fun hnr : ¬ r =>
+         ⟨a, fun hr => absurd hr hnr⟩
+        )
+    )
+
+end Exercise_5
