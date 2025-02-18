@@ -33,6 +33,21 @@ example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
   이 때 가정인 ∀ x, p x ∨ q x는 참이지만 (∀ x, p x), (∀ x, q x)는 모두 거짓이다.
 -/
 
+/-- 불휘: 다음 보기도 참고해 주세요. -/
+example : ∃ (α : Type) (p q : α → Prop), ¬((∀ x, p x ∨ q x) → (∀ x, p x) ∨ ∀ x, q x) :=
+  let p (n : Nat) : Prop := n = 0
+  let q (n : Nat) : Prop := n > 0
+  let hpq : ∀ (n : Nat), p n ∨ q n := Nat.eq_zero_or_pos
+  have hnp : ¬∀ n, p n := fun hp : ∀ n, p n => show False from
+    (show 1 ≠ 0 from Nat.succ_ne_self 0)
+      (show 1 = 0 from hp 1)
+  have hnq : ¬∀ n, q n := fun hq : ∀ n, q n => show False from
+    (show 0 ≠ 0 from Nat.pos_iff_ne_zero.mp (show 0 > 0 from hq 0))
+      (show 0 = 0 from rfl)
+  have hn : ¬((∀ x, p x ∨ q x) → (∀ x, p x) ∨ ∀ x, q x) :=
+    not_imp_of_and_not ⟨hpq, not_or.mpr ⟨hnp, hnq⟩⟩
+  ⟨Nat, p, q, hn⟩
+
 end Exercise_1
 
 namespace Exercise_2
@@ -46,7 +61,7 @@ example : α → ((∀ x : α, r) ↔ r) :=
   fun ha : α => show (∀ x : α, r) ↔ r from
     Iff.intro
       (fun h : ∀ x : α, r => h ha)
-      (fun h : r => show ∀ x : α , r from
+      (fun h : r => show ∀ x : α, r from
         fun _ => show r from h
       )
 
@@ -57,6 +72,11 @@ example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
         (fun hr : r => Or.inr hr)
         (fun hnr : ¬ r => Or.inl (fun z => show p z from
           (h z).resolve_right hnr
+          /- 불휘: 다른 풀이
+          (show p z ∨ r from h z).elim
+            (fun hp : p z => hp)
+            (fun hr : r => show p z from absurd hr hnr)
+          -/
         ))
     )
     (fun h : (∀ x, p x) ∨ r =>
@@ -96,25 +116,53 @@ example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False :=
     absurd (fun hsbb : sbb => absurd hsbb (hp hsbb))
            (fun hnsbb : ¬ sbb => absurd (hnp hnsbb) hnsbb)
 
+-- 불휘: 다른 풀이
+example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False :=
+  have hbarber : shaves barber barber ↔ ¬ shaves barber barber := h barber
+  let sbb := shaves barber barber
+  have hnsbb : ¬ sbb := fun hsbb : sbb => hbarber.mp hsbb hsbb
+  have hsbb : sbb := hbarber.mpr hnsbb
+  show False from hnsbb hsbb
+
 end Exercise_3
 
 namespace Exercise_4
 
 def even (n : Nat) : Prop := ∃ k, 2 * k = n
 
-def prime (n : Nat) : Prop := ∀ x, x != 1 ∧ x != n → (¬ ∃ x, n % x = 0)
+/-- 불휘: `\ne`로 `≠`를 입력할 수 있습니다. -/
+def prime (n : Nat) : Prop := ∀ x, x ≠ 1 ∧ x ≠ n → n % x ≠ 0
 
-def infinitely_many_primes : Prop := ∀ n : Nat, ∃ x, (x > n) ∧ (prime x)
+/-- 불휘: `1`은 소수가 아니므로 술어 `prime`의 정의가 잘못됐습니다. 정의를 새로 작성해 주세요. -/
+example : prime 1 :=
+  fun (a : Nat) ⟨ha, _⟩ => show 1 % a ≠ 0 from
+    match a with
+    | 0 => by simp [Nat.mod_zero 1]
+    | 1 => absurd (rfl : 1 = 1) (ha : 1 ≠ 1)
+    | b + 2 => by
+      have hm : 1 % (b + 2) = 1 := Nat.mod_eq_of_lt (Nat.add_lt_add_right b.succ_pos 1)
+      simp [hm]
 
-def Fermat_prime (n : Nat) : Prop := prime (2^2^n + 1)
+def infinitely_many_primes : Prop :=
+  ∀ n : Nat, ∃ x, (x > n) ∧ (prime x)
 
-def infinitely_many_Fermat_primes : Prop := ∀ n : Nat, ∃ x, (x > n) ∧ (Fermat_prime x)
+-- def Fermat_prime (n : Nat) : Prop := prime (2^2^n + 1)
 
-def goldbach_conjecture : Prop := ∀ n, (n > 2) ∧ (even n) → ∃ x y, (prime x) ∧ (prime y) ∧ (x + y = n)
+/-- 불휘: `2 ^ 2 ^ n + 1` 말고 `n`이 페르마 소수여야 합니다. -/
+def Fermat_prime (n : Nat) : Prop :=
+  prime n ∧ ∃ x, n = 2^2^x + 1
 
-def Goldbach's_weak_conjecture : Prop := ∀ n, (n > 5) → ∃ x y z, (prime x) ∧ (prime y) ∧ (prime z) ∧ (x + y + z = n)
+def infinitely_many_Fermat_primes : Prop :=
+  ∀ n : Nat, ∃ x, (x > n) ∧ (Fermat_prime x)
 
-def Fermat's_last_theorem : Prop := ∀ n, (n ≥ 3) → ¬ ∃ a b c : Nat, a^n + b^n = c^n
+def goldbach_conjecture : Prop :=
+  ∀ n, (n > 2) ∧ (even n) → ∃ x y, (prime x) ∧ (prime y) ∧ (x + y = n)
+
+def Goldbach's_weak_conjecture : Prop :=
+  ∀ n, (n > 5) ∧ ¬ even n → ∃ x y z, (prime x) ∧ (prime y) ∧ (prime z) ∧ (x + y + z = n)
+
+def Fermat's_last_theorem : Prop :=
+  ∀ n, (n ≥ 3) → ¬ ∃ a b c : Nat, a > 0 ∧ b > 0 ∧ c > 0 ∧ a^n + b^n = c^n
 
 end Exercise_4
 
@@ -171,6 +219,9 @@ example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) :=
            fun hnp : ¬ p w => show False from
             absurd (fun hpw : p w => absurd hpw hnp)
                    (fun hnpw : ¬ p w => absurd (h w) hnpw)
+            /- 불휘: 다른 풀이
+            hnp (h w)
+            -/
           )
     )
     (fun h : ¬ (∃ x, ¬ p x) =>
@@ -276,7 +327,7 @@ example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r :=
                     have hex : ∃ x, p x → r := ⟨x, (fun hp => absurd hp hnp)⟩
                     show False from hnex hex
                   )
-             show False from hnap hap
+              show False from hnap hap
             )
         )
     )
