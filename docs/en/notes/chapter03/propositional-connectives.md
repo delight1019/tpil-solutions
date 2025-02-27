@@ -7,7 +7,8 @@
 * Names: truth, true proposition
 * Name in Lean: `True`
 * Rule of inference
-  - Introduction rule: `True` is true. (`True.intro`)
+  - Introduction rule: `True` is true. (`True.intro`, or more commonly,
+    `trivial`)
 
 ### Falsity
 

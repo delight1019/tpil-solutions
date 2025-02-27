@@ -107,7 +107,7 @@ end Question10
 
 ## Question 11
 
-Is the function `Type.id` of [Question 8](#question-8) universe-polymorphic?
+Is the function `Type.id` from [Question 8](#question-8) universe-polymorphic?
 
 ## Question 12
 
@@ -249,7 +249,7 @@ For information about parametric polymorphism, see
 ## Question 26
 
 Answer by true or false each of the following statements about the function
-`Type.id` of [Question 8](#question-8).
+`Type.id` from [Question 8](#question-8).
 
 \(a\) It is parametrically polymorphic. \
 \(b\) It is a dependent function. \
@@ -282,8 +282,8 @@ Given `α : Type` and `β : α → Type`, is the type `Σ (a : α), β a` a sigm
 
 ## Question 31
 
-Are the types of [Question 29](#question-29) and [Question 30](#question-30) the
-same?
+Are the types from [Question 29](#question-29) and [Question 30](#question-30)
+the same?
 
 ## Question 32
 

@@ -6,7 +6,7 @@ argument	인수
 Lean	린
 Lean community	린 커뮤니티
 God	신
-Alvin Plantinga	앨빈 플랜팅아
+Alvin Plantinga	앨빈 플랜팅가
 exist	존재하다
 existence	존재
 the understanding	지성
@@ -39,7 +39,7 @@ theory	이론
 conclude	결론하다
 prove	증명하다
 SEP	스탠퍼드 철학 백과사전
-Eric Wieser	에릭 비저
+Eric Wieser	에릭 위저
 Alistair Tucker	앨리스터 터커
 philosophy	철학
 Owl of Sogang	서강올빼미
@@ -169,3 +169,24 @@ law of excluded middle	배중률
 double-negation elimination	이중 부정 제거
 principle	원리
 derive	도출하다
+predicate logic	술어 논리
+quantifier	정량어
+quantifier	양화사
+universal quantifier	보편 정량어
+meaning	뜻
+unary predicate	단항 술어
+notation	표기법
+universal generalization	보편 일반화
+universal instantiation	보편 예시
+universal instantiation	보편 예화
+existential quantifier	존재 정량어
+introduction	도입
+existential introduction	존재 도입
+elimination	제거
+existential elimination	존재 제거
+predicative	서술적
+impredicative	비서술적
+equivalence relation	동치 관계
+equality	같음
+equality	상등
+less-than-or-equal-to	작거나 같음

@@ -7,7 +7,7 @@
 * 이름: 참, 참 명제
 * 린에서의 이름: `True`
 * 추론 규칙
-  - 도입 규칙: `True`는 참이다. (`True.intro`)
+  - 도입 규칙: `True`는 참이다. (`True.intro` 또는 `trivial`)
 
 ### 거짓
 
