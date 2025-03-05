@@ -131,17 +131,11 @@ namespace Exercise_4
 def even (n : Nat) : Prop := ∃ k, 2 * k = n
 
 /-- 불휘: `\ne`로 `≠`를 입력할 수 있습니다. -/
-def prime (n : Nat) : Prop := n ≠ 1 ∧ (∀ x, x ≠ 1 ∧ x ≠ n → n % x ≠ 0)
+def prime (n : Nat) : Prop := n ≥ 2 ∧ (∀ x : Nat, x > 1 ∧ x < n → n % x ≠ 0)
 
-/-- 불휘: `1`은 소수가 아니므로 술어 `prime`의 정의가 잘못됐습니다. 정의를 새로 작성해 주세요. -/
-example : prime 1 :=
-  fun (a : Nat) ⟨ha, _⟩ => show 1 % a ≠ 0 from
-    match a with
-    | 0 => by simp [Nat.mod_zero 1]
-    | 1 => absurd (rfl : 1 = 1) (ha : 1 ≠ 1)
-    | b + 2 => by
-      have hm : 1 % (b + 2) = 1 := Nat.mod_eq_of_lt (Nat.add_lt_add_right b.succ_pos 1)
-      simp [hm]
+/-- 불휘: `0`은 소수가 아니므로 술어 `prime`의 정의가 잘못됐습니다. 정의를 새로 작성해 주세요. -/
+example : ¬prime 0 :=
+  fun h : prime 0 => show False from h.right 2 (by decide) (by decide)
 
 def infinitely_many_primes : Prop :=
   ∀ n : Nat, ∃ x, (x > n) ∧ (prime x)
