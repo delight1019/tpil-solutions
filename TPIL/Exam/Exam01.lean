@@ -30,19 +30,19 @@ example {α : Type u} {β : Type v} (p : α × β) : β × α :=
 Prove the following examples:
 -/
 
-example : True ↔ ∀ {p : Prop}, p → p :=
+example : True ↔ ∀ (p : Prop), p → p :=
   sorry
 
-example : False ↔ ∀ {p : Prop}, p :=
+example : False ↔ ∀ (p : Prop), p :=
   sorry
 
-example {p q : Prop} : p ∧ q ↔ ∀ {r : Prop}, (p → q → r) → r :=
+example {p q : Prop} : p ∧ q ↔ ∀ (r : Prop), (p → q → r) → r :=
   sorry
 
-example {p q : Prop} : p ∨ q ↔ ∀ {r : Prop}, (p → r) → (q → r) → r :=
+example {p q : Prop} : p ∨ q ↔ ∀ (r : Prop), (p → r) → (q → r) → r :=
   sorry
 
-example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ {r : Prop}, (∀ (w : α), p w → r) → r :=
+example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ (r : Prop), (∀ (w : α), p w → r) → r :=
   sorry
 
 /-!
@@ -79,7 +79,7 @@ infixl:55 " shaves " => Shaves
 
 /-- The barber is the one who shaves all those, and those only, who do not shave themselves. -/
 def IsBarber (x : Human) : Prop :=
-  ∀ {y : Human}, x shaves y ↔ ¬y shaves y
+  ∀ (y : Human), x shaves y ↔ ¬y shaves y
 
 end Barber
 
