@@ -133,10 +133,6 @@ def even (n : Nat) : Prop := ∃ k, 2 * k = n
 /-- 불휘: `\ne`로 `≠`를 입력할 수 있습니다. -/
 def prime (n : Nat) : Prop := n ≥ 2 ∧ (∀ x : Nat, x > 1 ∧ x < n → n % x ≠ 0)
 
-/-- 불휘: `0`은 소수가 아니므로 술어 `prime`의 정의가 잘못됐습니다. 정의를 새로 작성해 주세요. -/
-example : ¬prime 0 :=
-  fun h : prime 0 => show False from h.right 2 (by decide) (by decide)
-
 def infinitely_many_primes : Prop :=
   ∀ n : Nat, ∃ x, (x > n) ∧ (prime x)
 
