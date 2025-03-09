@@ -29,35 +29,71 @@ example {α : Type u} {β : Type v} (p : α × β) : β × α :=
 Prove the following examples:
 -/
 
-/-- 모든 명제 p에 대해서 p이면 p이다 -/
-example : True ↔ ∀ {p : Prop}, p → p :=
+example : True ↔ ∀ (p : Prop), p → p :=
   Iff.intro
-    (fun tri : True => show ∀ {p : Prop}, p → p from
-      sorry
+    (fun _ : True => show ∀ (p : Prop), p → p from
+      fun _ =>
+      fun hp => hp
     )
     (fun _ => True.intro)
 
-example : False ↔ ∀ {p : Prop}, p :=
+example : False ↔ ∀ (p : Prop), p :=
   Iff.intro
-    (fun h : False => False.elim h)
-    (fun h : ∀ {p : Prop}, p => show False from
+    (fun h: False => False.elim h)
+    (fun h : ∀ (p : Prop), p => show False from
       let hp : Prop := True
-      let hnp : Prop := False
-      sorry
+      absurd (h hp) (h ¬hp)
     )
 
-example {p q : Prop} : p ∧ q ↔ ∀ {r : Prop}, (p → q → r) → r :=
+example {p q : Prop} : p ∧ q ↔ ∀ (r : Prop), (p → q → r) → r :=
   Iff.intro
-    (fun  h : p ∧ q => show ∀ {r : Prop}, (p → q → r) → r from
+    (fun h : p ∧ q => show ∀ (r : Prop), (p → q → r) → r from
+      fun hr =>
+      fun hpqr : p → q → hr =>
+      hpqr h.left h.right
+    )
+    (fun h : ∀ (r : Prop), (p → q → r) → r => show p ∧ q from
+      have hp : p :=
+        h p (fun p => fun _ => p) /- ? -/
+      have hq : q :=
+        h q (fun _ => fun q => q)
+      ⟨hp, hq⟩
+    )
+
+example {p q : Prop} : p ∨ q ↔ ∀ (r : Prop), (p → r) → (q → r) → r :=
+  Iff.intro
+    (fun h : p ∨ q => show ∀ (r : Prop), (p → r) → (q → r) → r from
+      fun hr =>
+      fun hpr : p → hr =>
+      fun hqr : q → hr =>
+      h.elim
+        (fun hp : p => hpr hp)
+        (fun hq : q => hqr hq)
+    )
+    (fun h : ∀ (r : Prop), (p → r) → (q → r) → r => show p ∨ q from
+      Classical.byCases
+        (fun hp : p => Or.inl hp)
+        (fun hnp : ¬p =>
+          have hq : q :=
+            h q (fun p => q) (fun q => q)
+          Or.inr hq
+        )
+    )
+
+example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ (r : Prop), (∀ (w : α), p w → r) → r :=
+  Iff.intro
+    (fun h  : ∃ (x : α), p x => show ∀ (r : Prop), (∀ (w : α), p w → r) → r from
+      fun hr =>
+      fun h1 : ∀ (w : α), p w → hr => show hr from
+        h.elim
+          (fun w =>
+           fun hpw : p w =>
+           h1 w hpw
+          )
+    )
+    (fun h : ∀ (r : Prop), (∀ (w : α), p w → r) → r => show ∃ (x : α), p x from
       sorry
     )
-    (sorry)
-
-example {p q : Prop} : p ∨ q ↔ ∀ {r : Prop}, (p → r) → (q → r) → r :=
-  sorry
-
-example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ {r : Prop}, (∀ (w : α), p w → r) → r :=
-  sorry
 
 /-!
 ## Problem 3
@@ -131,7 +167,7 @@ infixl:55 " shaves " => Shaves
 
 /-- The barber is the one who shaves all those, and those only, who do not shave themselves. -/
 def IsBarber (x : Human) : Prop :=
-  ∀ {y : Human}, x shaves y ↔ ¬y shaves y
+  ∀ (y : Human), x shaves y ↔ ¬y shaves y
 
 end Barber
 
@@ -144,8 +180,8 @@ theorem Paradox.barber : ¬∃ (x : Human), IsBarber x :=
       (fun w =>
        fun barberW : IsBarber w =>
        let wsw := w shaves w
-       have h1 : wsw → ¬wsw := barberW.mp
-       have h2 : ¬wsw → wsw := barberW.mpr
+       have h1 : wsw → ¬wsw := (barberW w).mp
+       have h2 : ¬wsw → wsw := (barberW w).mpr
        have hnwsw : ¬wsw := fun hwsw : wsw => h1 hwsw hwsw
        have hwsw : wsw := h2 hnwsw
        show False from hnwsw hwsw
@@ -211,9 +247,12 @@ drinking. -/
 -- HINT: use theorems `byCases` and `not_forall`
 theorem Paradox.drinker (someone : Pub) : ∃ (x : Pub), IsDrinking x → ∀ (y : Pub), IsDrinking y :=
   byCases
-    (fun allDrinking : ∀ (y : Pub), IsDrinking y => sorry
+    (fun allDrinking : ∀ (y : Pub), IsDrinking y =>
+      ⟨someone, fun someone => allDrinking⟩
     )
     (fun nAllDrinking : ¬∀ (y : Pub), IsDrinking y =>
-     sorry
+      ⟨someone, fun h : IsDrinking someone =>
+        sorry
+      ⟩
     )
 end

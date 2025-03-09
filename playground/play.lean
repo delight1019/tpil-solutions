@@ -7,3 +7,6 @@ variable (h2 : ∀ {p : Prop}, p)
 example : ∀ {p : Prop}, p :=
   let h : Prop := False
   False.elim h
+
+
+variable h : ∀ (r : Prop), (p → q → r) → r
