@@ -5,6 +5,7 @@ variable {α : Sort u}
 
 def p (x : α) : Prop := ∀ (q : α → Prop), ¬q x
 
+/-- Bulhwi: `p w` is a dependent function type; `hp` is a dependent function. -/
 theorem not_exists_p : ¬∃ (x : α), p x :=
   fun h : ∃ (x : α), p x =>
     Exists.elim h
