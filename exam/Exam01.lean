@@ -48,43 +48,45 @@ example : False ↔ ∀ (p : Prop), p :=
 example {p q : Prop} : p ∧ q ↔ ∀ (r : Prop), (p → q → r) → r :=
   Iff.intro
     (fun h : p ∧ q => show ∀ (r : Prop), (p → q → r) → r from
-      fun hr =>
-      fun hpqr : p → q → hr =>
+      fun r =>
+      fun hpqr : p → q → r =>
       hpqr h.left h.right
     )
     (fun h : ∀ (r : Prop), (p → q → r) → r => show p ∧ q from
       have hp : p :=
-        h p (fun p => fun _ => p) /- ? -/
+        -- Bulhwi: avoid using the same name for different terms
+        h p (fun hp => fun _ => show p from hp)
       have hq : q :=
-        h q (fun _ => fun q => q)
+        h q (fun _ => fun hq => show q from hq)
       ⟨hp, hq⟩
     )
 
 example {p q : Prop} : p ∨ q ↔ ∀ (r : Prop), (p → r) → (q → r) → r :=
   Iff.intro
     (fun h : p ∨ q => show ∀ (r : Prop), (p → r) → (q → r) → r from
-      fun hr =>
-      fun hpr : p → hr =>
-      fun hqr : q → hr =>
+      fun r =>
+      fun hpr : p → r =>
+      fun hqr : q → r =>
       h.elim
         (fun hp : p => hpr hp)
         (fun hq : q => hqr hq)
     )
     (fun h : ∀ (r : Prop), (p → r) → (q → r) → r => show p ∨ q from
-      Classical.byCases
+      Classical.byCases -- Bulhwi: try proving `p ∨ q` without using classical reasoning
         (fun hp : p => Or.inl hp)
         (fun hnp : ¬p =>
           have hq : q :=
-            h q (fun p => q) (fun q => q)
+            -- Bulhwi: avoid using the same name for different terms
+            h q (fun hp => sorry) (fun hq => hq)
           Or.inr hq
         )
     )
 
 example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ (r : Prop), (∀ (w : α), p w → r) → r :=
   Iff.intro
-    (fun h  : ∃ (x : α), p x => show ∀ (r : Prop), (∀ (w : α), p w → r) → r from
-      fun hr =>
-      fun h1 : ∀ (w : α), p w → hr => show hr from
+    (fun h : ∃ (x : α), p x => show ∀ (r : Prop), (∀ (w : α), p w → r) → r from
+      fun r =>
+      fun h1 : ∀ (w : α), p w → r => show r from
         h.elim
           (fun w =>
            fun hpw : p w =>
@@ -92,7 +94,7 @@ example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ (r : Prop)
           )
     )
     (fun h : ∀ (r : Prop), (∀ (w : α), p w → r) → r => show ∃ (x : α), p x from
-      sorry
+      h (∃ x, p x) sorry
     )
 
 /-!
@@ -212,13 +214,13 @@ theorem Paradox.spearShield
     (h₁ : ∃ (spr : Spear), ∀ (shd : Shield),  spr can_pierce shd)
     (h₂ : ∃ (shd : Shield), ∀ (spr : Spear), ¬spr can_pierce shd) : False :=
   h₁.elim
-    (fun hspr =>
-     fun hsprPierceShd : ∀ (shd : Shield), hspr can_pierce shd =>
+    (fun spr =>
+     fun hsprPierceShd : ∀ (shd : Shield), spr can_pierce shd =>
      h₂.elim
-      (fun hshd =>
-       fun hnsprPierceShd : ∀ (spr : Spear), ¬spr can_pierce hshd => show False from
-       have hsps : hspr can_pierce hshd := hsprPierceShd hshd
-       have hnsps : ¬hspr can_pierce hshd := hnsprPierceShd hspr
+      (fun shd =>
+       fun hnsprPierceShd : ∀ (spr : Spear), ¬spr can_pierce shd => show False from
+       have hsps : spr can_pierce shd := hsprPierceShd shd
+       have hnsps : ¬spr can_pierce shd := hnsprPierceShd spr
        show False from hnsps hsps
       )
     )
@@ -251,8 +253,10 @@ theorem Paradox.drinker (someone : Pub) : ∃ (x : Pub), IsDrinking x → ∀ (y
       ⟨someone, fun someone => allDrinking⟩
     )
     (fun nAllDrinking : ¬∀ (y : Pub), IsDrinking y =>
-      ⟨someone, fun h : IsDrinking someone =>
-        sorry
-      ⟩
+      have exNDrinking : ∃ (y : Pub), ¬IsDrinking y := not_forall.mp nAllDrinking
+      exNDrinking.elim
+        (fun w hw =>
+          sorry
+        )
     )
 end
