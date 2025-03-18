@@ -72,14 +72,9 @@ example {p q : Prop} : p ∨ q ↔ ∀ (r : Prop), (p → r) → (q → r) → r
         (fun hq : q => hqr hq)
     )
     (fun h : ∀ (r : Prop), (p → r) → (q → r) → r => show p ∨ q from
-      Classical.byCases -- Bulhwi: try proving `p ∨ q` without using classical reasoning
-        (fun hp : p => Or.inl hp)
-        (fun hnp : ¬p =>
-          have hq : q :=
-            -- Bulhwi: avoid using the same name for different terms
-            h q (fun hp => sorry) (fun hq => hq)
-          Or.inr hq
-        )
+      have hpq := h (p ∨ q)
+      hpq (fun hp => show p ∨ q from Or.inl hp)
+          (fun hq => show p ∨ q from Or.inr hq)
     )
 
 example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ (r : Prop), (∀ (w : α), p w → r) → r :=
@@ -94,7 +89,8 @@ example {α : Sort u} {p : α → Prop} : (∃ (x : α), p x) ↔ ∀ (r : Prop)
           )
     )
     (fun h : ∀ (r : Prop), (∀ (w : α), p w → r) → r => show ∃ (x : α), p x from
-      h (∃ x, p x) sorry
+      have con := h (∃ x, p x)
+      con (fun w hpw => ⟨w, hpw⟩)
     )
 
 /-!
@@ -255,8 +251,11 @@ theorem Paradox.drinker (someone : Pub) : ∃ (x : Pub), IsDrinking x → ∀ (y
     (fun nAllDrinking : ¬∀ (y : Pub), IsDrinking y =>
       have exNDrinking : ∃ (y : Pub), ¬IsDrinking y := not_forall.mp nAllDrinking
       exNDrinking.elim
-        (fun w hw =>
-          sorry
+        (fun w hnw =>
+          ⟨w, fun hw =>
+            have : False := (hnw hw)
+            False.elim this
+          ⟩
         )
     )
 end
