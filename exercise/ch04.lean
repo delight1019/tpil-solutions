@@ -1,3 +1,5 @@
+set_option linter.unusedVariables false
+
 namespace Exercise_1
 
 variable (α : Type) (p q : α → Prop)
