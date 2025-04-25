@@ -9,4 +9,6 @@ import TPIL.Chapter03.«Question10-14»
 import TPIL.Chapter03.«Exercise01-03»
 import TPIL.Chapter04.PredicateAndRelation
 import TPIL.Chapter04.Quantifier
+import TPIL.Chapter04.Question01
+import TPIL.Chapter04.«Question04-05»
 import TPIL.Exam.Exam01
