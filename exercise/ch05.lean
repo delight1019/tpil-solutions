@@ -233,3 +233,203 @@ example : ¬(p ↔ ¬p) := by
     contradiction
   have := nptp hnp
   contradiction
+
+
+
+/- Ch 04 -/
+
+-- 1
+variable (α : Type) (p q : α → Prop)
+
+example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) := by
+  apply Iff.intro
+  . intro h
+    have hp : ∀ x, p x := by
+      intro w
+      exact (h w).left
+    have hq : ∀ x, q x := by
+      intro w
+      exact (h w).right
+    exact ⟨hp, hq⟩
+  . intro h
+    have hp := h.left
+    have hq := h.right
+    intro w
+    exact ⟨(hp w), (hq w)⟩
+
+example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := by
+  intro f
+  intro g
+  intro w
+  exact (f w) (g w)
+
+example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := by
+  intro h
+  intro w
+  cases h with
+  | inl hp => left; exact hp w
+  | inr hq => right; exact hq w
+
+-- 2
+variable (α : Type) (p q : α → Prop)
+variable (r : Prop)
+
+example : α → ((∀ x : α, r) ↔ r) := by
+  intro a
+  apply Iff.intro
+  . intro h
+    exact h a
+  . intro h
+    intro w
+    exact h
+
+example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r := by
+  apply Iff.intro
+  . intro h
+    by_cases hr : r
+    . exact Or.inr hr
+    . left
+      intro w
+      exact (h w).resolve_right hr
+  . intro h
+    intro w
+    cases h with
+    | inl hp => exact Or.inl (hp w)
+    | inr hr => exact Or.inr hr
+
+example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := by
+  apply Iff.intro
+  . intro h
+    intro hr
+    intro w
+    exact (h w) hr
+  . intro h
+    intro w
+    intro hr
+    exact (h hr) w
+
+-- 3
+variable (men : Type) (barber : men)
+variable (shaves : men → men → Prop)
+
+example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False := by
+  have hbarber := h barber
+  let sbb := shaves barber barber
+  have hnsbb : ¬sbb := by
+    intro hsbb
+    have hnsbb := hbarber.mp hsbb
+    contradiction
+  have hsbb : sbb := hbarber.mpr hnsbb
+  contradiction
+
+-- 4
+def even (n : Nat) : Prop := by
+  exact (n % 2 = 0)
+
+def prime (n : Nat) : Prop := by
+  exact n >= 2 ∧ (∀ x : Nat, x > 1 ∧ x < n → n % x ≠ 0)
+
+def infinitely_many_primes : Prop := by
+  exact ∀ n : Nat, ∃ x, (x > n) ∧ (prime x)
+
+def Fermat_prime (n : Nat) : Prop := by
+  exact prime n ∧ ∃ x, n = 2^2^x + 1
+
+def infinitely_many_Fermat_primes : Prop := by
+  exact ∀ n : Nat, ∃ x, (x > n) ∧ (Fermat_prime x)
+
+def goldbach_conjecture : Prop := by
+  exact ∀ n, (n > 2) ∧ (even n) → ∃ x y, (prime x) ∧ (prime y) ∧ (x + y = n)
+
+def Goldbach's_weak_conjecture : Prop := by
+  exact ∀ n, (n > 5) ∧ ¬ even n → ∃ x y z, (prime x) ∧ (prime y) ∧ (prime z) ∧ (x + y + z = n)
+
+def Fermat's_last_theorem : Prop := by
+  exact ∀ n, (n ≥ 3) → ¬ ∃ a b c : Nat, a > 0 ∧ b > 0 ∧ c > 0 ∧ a^n + b^n = c^n
+
+-- 5
+open Classical
+
+variable (α : Type) (p q : α → Prop)
+variable (r : Prop)
+
+example : (∃ x : α, r) → r := by
+  simp
+
+example (a : α) : r → (∃ x : α, r) := by
+  intro hr
+  exact ⟨a, hr⟩
+
+example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r := by
+  simp
+
+example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := by
+  apply Iff.intro
+  . intro h
+    cases h with
+    | intro x hpq =>
+      cases hpq with
+      | inl hp =>
+        left
+        exact ⟨x, hp⟩
+      | inr hq =>
+        right
+        exact ⟨x, hq⟩
+  . intro h
+    cases h with
+    | inl hp =>
+      cases hp with
+      | intro x hx => exact ⟨x, Or.inl hx⟩
+    | inr hq =>
+      cases hq with
+      | intro x hx => exact ⟨x, Or.inr hx⟩
+
+example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := by
+  simp
+
+example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := by
+  simp
+
+example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := by
+  simp
+
+example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := by
+  simp
+
+example : (∀ x, p x → r) ↔ (∃ x, p x) → r := by
+  simp
+
+example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := by
+  apply Iff.intro
+  . intro h
+    cases h with
+    | intro x hpr =>
+      intro f
+      exact hpr (f x)
+  . intro h
+    by_cases hap : ∀ x, p x
+    . exact ⟨a, fun _ => h hap⟩
+    . show ∃ x, p x → r
+      admit
+
+
+example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := by
+  apply Iff.intro
+  . intro h
+    cases h with
+    | intro x hrp =>
+      intro hr
+      exact ⟨x, hrp hr⟩
+  . intro h
+    by_cases hr : r
+    . apply Exists.elim (h hr)
+      . intro w
+        intro hp
+        exact ⟨w, fun _ => hp⟩
+    . exact ⟨a, fun hr => by contradiction⟩
+
+
+/- Ch 05 -/
+example (p q r : Prop) (hp : p)
+        : (p ∨ q ∨ r) ∧ (q ∨ p ∨ r) ∧ (q ∨ r ∨ p) := by
+  constructor <;> (try constructor) <;> repeat (first | apply Or.inl; assumption | apply Or.inr | assumption)
