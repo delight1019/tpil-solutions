@@ -80,12 +80,9 @@ example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by
 -- other properties
 example : (p → (q → r)) ↔ (p ∧ q → r) := by
   apply Iff.intro
-  . intro h
-    intro hpq
+  . intro h hpq
     exact (h hpq.left) (hpq.right)
-  . intro h
-    intro hp
-    intro hq
+  . intro h hp hq
     exact h ⟨hp, hq⟩
 
 example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := by
@@ -136,13 +133,11 @@ example : p ∧ ¬q → ¬(p → q) := by
   simp
 
 example : ¬p → (p → q) := by
-  intro hnp
-  intro hp
+  intro hnp hp
   contradiction
 
 example : (¬p ∨ q) → (p → q) := by
-  intro h
-  intro hp
+  intro h hp
   cases h with
   | inl hnp => contradiction
   | inr hq => exact hq
@@ -154,9 +149,7 @@ example : p ∧ False ↔ False := by
   simp
 
 example : (p → q) → (¬q → ¬p) := by
-  intro h
-  intro hnq
-  intro hp
+  intro h hnq hp
   have := h hp
   contradiction
 
@@ -201,8 +194,7 @@ example : (p → q) → (¬p ∨ q) := by
     exact hp
 
 example : (¬q → ¬p) → (p → q) := by
-  intro h
-  intro hp
+  intro h hp
   by_cases hq : q
   . exact hq
   . have := h hq
@@ -258,14 +250,11 @@ example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) := by
     exact ⟨(hp w), (hq w)⟩
 
 example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := by
-  intro f
-  intro g
-  intro w
+  intro f g w
   exact (f w) (g w)
 
 example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := by
-  intro h
-  intro w
+  intro h w
   cases h with
   | inl hp => left; exact hp w
   | inr hq => right; exact hq w
@@ -279,8 +268,7 @@ example : α → ((∀ x : α, r) ↔ r) := by
   apply Iff.intro
   . intro h
     exact h a
-  . intro h
-    intro w
+  . intro h w
     exact h
 
 example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r := by
@@ -291,21 +279,16 @@ example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r := by
     . left
       intro w
       exact (h w).resolve_right hr
-  . intro h
-    intro w
+  . intro h w
     cases h with
     | inl hp => exact Or.inl (hp w)
     | inr hr => exact Or.inr hr
 
 example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := by
   apply Iff.intro
-  . intro h
-    intro hr
-    intro w
+  . intro h hr w
     exact (h w) hr
-  . intro h
-    intro w
-    intro hr
+  . intro h w hr
     exact (h hr) w
 
 -- 3
