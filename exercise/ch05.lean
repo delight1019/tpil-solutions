@@ -292,6 +292,8 @@ example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := by
     exact (h hr) w
 
 -- 3
+section
+
 variable (men : Type) (barber : men)
 variable (shaves : men → men → Prop)
 
@@ -304,6 +306,8 @@ example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False := by
     contradiction
   have hsbb : sbb := hbarber.mpr hnsbb
   contradiction
+
+end
 
 -- 4
 def even (n : Nat) : Prop := by
