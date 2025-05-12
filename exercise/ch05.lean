@@ -1,4 +1,7 @@
 /- Ch 03 -/
+
+section
+
 variable (p q r : Prop)
 
 -- commutativity of ∧ and ∨
@@ -226,11 +229,13 @@ example : ¬(p ↔ ¬p) := by
   have := nptp hnp
   contradiction
 
-
+end
 
 /- Ch 04 -/
 
 -- 1
+section
+
 variable (α : Type) (p q : α → Prop)
 
 example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) := by
@@ -259,7 +264,13 @@ example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := by
   | inl hp => left; exact hp w
   | inr hq => right; exact hq w
 
+end
+
 -- 2
+section
+
+set_option linter.unusedVariables false
+
 variable (α : Type) (p q : α → Prop)
 variable (r : Prop)
 
@@ -290,6 +301,8 @@ example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := by
     exact (h w) hr
   . intro h w hr
     exact (h hr) w
+
+end
 
 -- 3
 section
@@ -335,6 +348,10 @@ def Fermat's_last_theorem : Prop := by
   exact ∀ n, (n ≥ 3) → ¬ ∃ a b c : Nat, a > 0 ∧ b > 0 ∧ c > 0 ∧ a^n + b^n = c^n
 
 -- 5
+section
+
+set_option linter.unusedVariables false
+
 open Classical
 
 variable (α : Type) (p q : α → Prop)
@@ -415,6 +432,7 @@ example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := by
         exact ⟨w, fun _ => hp⟩
     . exact ⟨a, fun hr => by contradiction⟩
 
+end
 
 /- Ch 05 -/
 example (p q r : Prop) (hp : p)
