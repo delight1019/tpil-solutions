@@ -414,8 +414,17 @@ example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := by
     by_cases hap : ∀ x, p x
     . exact ⟨a, fun _ => h hap⟩
     . show ∃ x, p x → r
-      admit
-
+      let ⟨w, hw⟩ : ∃ x, ¬p x := by
+        apply byContradiction
+        intro hnex
+        have : ∀ x, p x := by
+          intro x
+          apply byContradiction
+          intro hnp
+          sorry
+        sorry
+      exists w
+      sorry
 
 example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := by
   apply Iff.intro
@@ -438,3 +447,4 @@ end
 example (p q r : Prop) (hp : p)
         : (p ∨ q ∨ r) ∧ (q ∨ p ∨ r) ∧ (q ∨ r ∨ p) := by
   constructor <;> (try constructor) <;> repeat (first | apply Or.inl; assumption | apply Or.inr | assumption)
+  -- alternative proof: repeat (first | apply And.intro | left; assumption | right | assumption)
