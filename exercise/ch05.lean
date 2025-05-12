@@ -98,8 +98,7 @@ example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := by
       intro hq
       exact h (Or.inr hq)
     exact ⟨hptr, hqtr⟩
-  . intro h
-    intro hpq
+  . intro h hpq
     cases hpq with
     | inl hp => exact h.left hp
     | inr hq => exact h.right hq
@@ -112,8 +111,7 @@ example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := by
       exact h (Or.inl hp)
     . intro hq
       exact h (Or.inr hq)
-  . intro h
-    intro hpq
+  . intro h hpq
     have := h.left
     have := h.right
     cases hpq with
@@ -121,8 +119,7 @@ example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := by
     | inr hq => contradiction
 
 example : ¬p ∨ ¬q → ¬(p ∧ q) := by
-  intro h
-  intro hpq
+  intro h hpq
   have := hpq.left
   have := hpq.right
   cases h with
@@ -436,8 +433,7 @@ example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := by
   . intro h
     by_cases hr : r
     . apply Exists.elim (h hr)
-      . intro w
-        intro hp
+      . intro w hp
         exact ⟨w, fun _ => hp⟩
     . exact ⟨a, fun hr => by contradiction⟩
 
