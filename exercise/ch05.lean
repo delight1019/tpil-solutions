@@ -418,10 +418,11 @@ example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := by
           intro x
           apply byContradiction
           intro hnp
-          sorry
-        sorry
+          exact hnex ⟨x ,hnp⟩
+        exact hap this
       exists w
-      sorry
+      intro hpw
+      exact False.elim (hw hpw)
 
 example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := by
   apply Iff.intro
