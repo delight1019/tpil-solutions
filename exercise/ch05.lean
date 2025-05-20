@@ -418,7 +418,7 @@ example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := by
           intro x
           apply byContradiction
           intro hnp
-          exact hnex ⟨x ,hnp⟩
+          exact hnex ⟨x, hnp⟩
         exact hap this
       exists w
       intro hpw
