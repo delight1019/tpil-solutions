@@ -422,7 +422,7 @@ example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := by
         exact hap this
       exists w
       intro hpw
-      exact False.elim (hw hpw)
+      exact False.elim (hw hpw) -- alternative proof: contradiction
 
 example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := by
   apply Iff.intro
