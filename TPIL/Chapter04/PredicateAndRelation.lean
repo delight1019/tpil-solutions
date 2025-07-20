@@ -34,11 +34,11 @@ variable {Being : Type} [Invincible Being]
 -- `IsInvincible mark` is a proposition.
 #check IsInvincible (mark : Being)
 
-/-- Bulhwi isn't invincible. -/
+-- Bulhwi isn't invincible.
 example : ¬IsInvincible (bulhwi : Being) :=
   not_bulhwi_isInvincible
 
-/-- Mark is invincible. -/
+-- Mark is invincible.
 example : IsInvincible (mark : Being) :=
   mark_isInvincible
 
@@ -75,11 +75,11 @@ variable {Being : Type} [HighSchool Being]
 -- `Likes jentry kit` is a proposition.
 #check Likes jentry (kit : Being)
 
-/-- Michael likes Jentry. -/
+-- Michael likes Jentry.
 example : Likes michael (jentry : Being) :=
   michael_likes_jentry
 
-/-- Jentry likes Kit. -/
+-- Jentry likes Kit.
 example : Likes jentry (kit : Being) :=
   jentry_likes_kit
 

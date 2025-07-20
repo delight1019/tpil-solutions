@@ -11,4 +11,5 @@ import TPIL.Chapter04.PredicateAndRelation
 import TPIL.Chapter04.Quantifier
 import TPIL.Chapter04.Question01
 import TPIL.Chapter04.«Question04-05»
+import TPIL.Chapter04.«Exercise01-05»
 import TPIL.Exam.Exam01

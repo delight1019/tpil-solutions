@@ -103,7 +103,7 @@ example : p ∨ False ↔ p :=
   ⟨fun h ↦ h.elim id False.elim, Or.inl⟩
 
 example : p ∧ False ↔ False :=
-  ⟨fun h ↦ h.2, fun h ↦ h.elim⟩
+  ⟨And.right, False.elim⟩
 
 example : (p → q) → (¬q → ¬p) :=
   fun h hnq hp ↦ hnq (h hp)
