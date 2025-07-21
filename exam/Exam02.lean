@@ -30,6 +30,12 @@ example : False ↔ ∀ {p : Prop}, p :=
       absurd (@h True) (@h ¬True)
     )
 
+-- alternative proof
+example : False ↔ ∀ {p : Prop}, p :=
+  Iff.intro
+    (fun h : False => False.elim h)
+    (fun h : ∀ {p : Prop}, p => show False from h)
+
 example {p q : Prop} : p ∧ q ↔ ∀ {r : Prop}, (p → q → r) → r :=
   Iff.intro
     (fun h : p ∧ q => show ∀ {r : Prop}, (p → q → r) → r from
