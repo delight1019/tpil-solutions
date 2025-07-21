@@ -27,8 +27,7 @@ example : False ↔ ∀ {p : Prop}, p :=
   Iff.intro
     (fun h : False => False.elim h)
     (fun h : ∀ {p : Prop}, p => show False from
-      let hp : Prop := True
-      absurd (@h hp) (@h ¬hp)
+      absurd (@h True) (@h ¬True)
     )
 
 example {p q : Prop} : p ∧ q ↔ ∀ {r : Prop}, (p → q → r) → r :=
