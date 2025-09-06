@@ -11,7 +11,7 @@ Most of the content has been released under the terms of [Apache License Version
 2.0](./LICENSE). However, this repository also contains a Lean file in the
 [public domain](./LICENSE-CC0).
 
-I've also included a quiz for each chapter of the text in this repository, along
+I've also included additional quizzes and examinations in this repository, along
 with my solutions to the questions in each quiz.
 
 I use [OmegaT][omt] to translate English documentation into Korean. The OmegaT

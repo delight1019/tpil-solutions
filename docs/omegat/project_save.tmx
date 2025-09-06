@@ -1262,6 +1262,15 @@ with my solutions to the questions in each quiz.</seg>
     </tu>
     <tu>
       <tuv lang="en">
+        <seg>I've also included additional quizzes and examinations in this repository, along
+with my solutions to the questions in each quiz.</seg>
+      </tuv>
+      <tuv lang="ko" changeid="chabulhwi" changedate="20250827T013645Z" creationid="chabulhwi" creationdate="20250827T013645Z">
+        <seg>퀴즈와 시험도 이 저장소에 포함했고, 각 퀴즈의 문제 풀이도 있습니다.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
         <seg>If you've found errors in my solutions and want to fix them, please send an
 email to &lt;x1/&gt;.</seg>
       </tuv>

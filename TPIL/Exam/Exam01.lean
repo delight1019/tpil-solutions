@@ -121,7 +121,7 @@ end
 /-!
 ## Problem 6: Drinker Paradox
 
-Prove the theorem `Paradox.spearShield` below:
+Prove the theorem `Paradox.drinker` below:
 -/
 
 /-- A class for formalizing the drinker paradox. -/
