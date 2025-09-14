@@ -17,3 +17,14 @@ import TPIL.Chapter05.«Exercise01Chapter04»
 import TPIL.Chapter05.Exercise02
 import TPIL.Exam.Exam01
 import TPIL.Exam.Exam02
+
+--
+import TPIL.play
+import TPIL.myExercise.ch03
+import TPIL.myExercise.ch04
+import TPIL.myExercise.ch05
+import TPIL.myQuiz.chapter02
+import TPIL.myQuiz.chapter03
+import TPIL.myQuiz.chapter04
+import TPIL.myExam.Exam01
+import TPIL.myExam.Exam02
