@@ -20,3 +20,11 @@ import TPIL.Exam.Exam02
 
 --
 import TPIL.play
+import TPIL.myExercise.ch03
+import TPIL.myExercise.ch04
+import TPIL.myExercise.ch05
+import TPIL.myQuiz.chapter02
+import TPIL.myQuiz.chapter03
+import TPIL.myQuiz.chapter04
+import TPIL.myExam.Exam01
+import TPIL.myExam.Exam02
